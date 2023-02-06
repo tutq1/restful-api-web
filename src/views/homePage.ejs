@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+      .title {
+        font-size: 25px;
+        font-weight: bold;
+        padding-bottom: 10px;
+      }
+      .table-container {
+        padding: 15px 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      thead {
+        background-color: #ccc;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      tr:hover {
+        background-color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="/create">Create User</a>
+    </div>
+
+    <div class="table-container">
+      <div class="title">List Users</div>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Name</th>
+          <th>City</th>
+          <th>Action</th>
+        </tr>
+        <% listUsers.forEach(function(user) {%>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.email %></td>
+          <td><%= user.name %></td>
+          <td><%= user.city %></td>
+          <td>
+            <a href="/update/<%= user.id %>">Edit</a>
+            <form action="/delete-user/<%= user.id %>" method="post">
+              <button>Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+
+    <!-- <div class="form-add-new">
+      <form method="post" action="/create-user">
+        <fieldset>
+          <legend>Add new users</legend>
+
+          <div class="input-group">
+            <label>Email: </label>
+            <input type="text" name="email" />
+          </div>
+
+          <div class="input-group">
+            <label>Name: </label>
+            <input type="text" name="name" />
+          </div>
+
+          <div class="input-group">
+            <label>City: </label>
+            <input type="text" name="city" />
+          </div>
+          <div>
+            <button>Save</button>
+          </div>
+        </fieldset>
+      </form>
+    </div> -->
+  </body>
+</html>
