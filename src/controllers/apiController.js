@@ -75,28 +75,37 @@ const checkImg = (req, res) => {
 };
 // kiem tra duoi image single file
 const checkImageSingleFile = (req, res) => {
-  const image = req.files.image;
-  const array_of_allowed_files = ["png", "jpeg", "jpg", "gif"];
-  let [name, typeFile] = image.name.split(".");
-  if (array_of_allowed_files.includes(typeFile)) return true;
-  return false;
+  //neu req.files == null thi ko lam gi ca
+  if (!req.files) {
+    return;
+  } else {
+    const image = req.files.image;
+    const array_of_allowed_files = ["png", "jpeg", "jpg", "gif"];
+    let [name, typeFile] = image.name.split(".");
+    if (array_of_allowed_files.includes(typeFile)) return true;
+    return false;
+  }
 };
 // kiem tra duoi image multi file
 const checkImageMultiFile = (req, res) => {
-  const image = req.files.image;
-  let check = false;
-  const array_of_allowed_files = ["png", "jpeg", "jpg", "gif"];
-  let size = image.length;
-  for (let i = 0; i < size; i++) {
-    let [name, typeFile] = image[i].name.split(".");
-    if (array_of_allowed_files.includes(typeFile)) {
-      check = true;
-    } else {
-      check = false;
-      return check;
+  if (!req.files) {
+    return;
+  } else {
+    const image = req.files.image;
+    let check = false;
+    const array_of_allowed_files = ["png", "jpeg", "jpg", "gif"];
+    let size = image.length;
+    for (let i = 0; i < size; i++) {
+      let [name, typeFile] = image[i].name.split(".");
+      if (array_of_allowed_files.includes(typeFile)) {
+        check = true;
+      } else {
+        check = false;
+        return check;
+      }
     }
+    return check;
   }
-  return check;
 };
 const postUploadSingleFileAPI = async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
