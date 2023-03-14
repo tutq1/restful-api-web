@@ -80,51 +80,55 @@ const deleteProjectService = async (data) => {
 
 const postCreateProjectService = async (data) => {
   try {
-     
-      if (data.type === "EMPTY-PROJECT") {
-        let result = await Project.create(data);
-        return result;
-      }
-      if (data.type === "ADD-USERS") {
-        console.log("myProject", myProject);
-        let myUser = await User.find({});
-        // kiem tra userId goi len co ton tai trong collection User ko ?
-        //data.userArr: danh sach userId truyen len de add vao usersInfor trong Project
-        for (let item of data.userArr) {
-          if (checkIdUser(item, myUser)) {
-            checkIdForProject(item, myProject);
-          }
+    const projectID = data.projectId;
+    let myProject = await Project.findOne({ _id: projectID }).exec();
+    //kiem tra idProject co ton tai ko
+    if (data.type === "EMPTY-PROJECT") {
+      let result = await Project.create(data);
+      return result;
+    }
+    if (data.type === "ADD-USERS") {
+      console.log("myProject: ", myProject);
+      let myUser = await User.find({});
+      // kiem tra userId goi len co ton tai trong collection User ko ?
+      //data.userArr: danh sach userId truyen len de add vao usersInfor trong Project
+      let newResult;
+      for (let item of data.userArr) {
+        if (checkIdUser(item, myUser)) {
+          checkIdForProject(item, myProject);
+          newResult = await myProject.save();
         }
-        let newResult = await myProject.save();
-        return newResult;
       }
-      if (data.type === "REMOVE-USERS") {
-        // for (let i = 0; i < data.userArr.length; i++) {
-        //   myProject.usersInfor.pull(data.userArr[i]);
-        // }
-        myProject.usersInfor = myProject.usersInfor.filter((item) => {
-          return !data.userArr.includes(item.toString());
-        });
-        //myProject.markModified("usersInfor");
-        let newResult = await myProject.save();
-        return newResult;
-      }
-      if (data.type === "ADD-TASKS") {
-        // console.log("data.projectId:", data.projectId);
 
-        let myTask = await Task.find({});
-        // kiem tra taskId gui len co ton tai trong collection Task ko ?
-        //data.taskArr: danh sach taskId truyen len de add vao tasks trong Project
+      return newResult;
+    }
+    if (data.type === "REMOVE-USERS") {
+      // for (let i = 0; i < data.userArr.length; i++) {
+      //   myProject.usersInfor.pull(data.userArr[i]);
+      // }
+      myProject.usersInfor = myProject.usersInfor.filter((item) => {
+        return !data.userArr.includes(item.toString());
+      });
+      //myProject.markModified("usersInfor");
+      let newResult = await myProject.save();
+      return newResult;
+    }
+    if (data.type === "ADD-TASKS") {
+      // console.log("data.projectId:", data.projectId);
 
-        for (let item of data.taskArr) {
-          if (checkIdUser(item, myTask)) {
-            console.log("item taskarr:", item);
-            checkIdForProject(item, myProject);
-          }
+      let myTask = await Task.find({});
+      // kiem tra taskId gui len co ton tai trong collection Task ko ?
+      //data.taskArr: danh sach taskId truyen len de add vao tasks trong Project
+
+      for (let item of data.taskArr) {
+        if (checkIdUser(item, myTask)) {
+          console.log("item taskarr:", item);
+          checkIdForProject(item, myProject);
         }
-        let newResult = await myProject.save();
-        return newResult;
       }
+      let newResult = await myProject.save();
+      return newResult;
+    }
   } catch (error) {
     console.log("error Project: ", error);
     return null;
