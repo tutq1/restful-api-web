@@ -23,7 +23,7 @@ const putUpdataTaskService = async (data) => {
 };
 const deleteATaskService = async (id) => {
   try {
-    let result = await Task.deletebyID(id);
+    let result = await Task.deletebyId(id);
     return result;
   } catch (error) {
     console.log("error delete task: ", error);
