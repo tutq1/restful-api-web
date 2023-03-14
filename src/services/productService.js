@@ -152,7 +152,11 @@ const checkIdForProject = (item, myProject) => {
     myProject.usersInfor.push(item);
   } else return;
 };
-
+const checkIdTaskForProject = (item, myProject) => {
+  if (!myProject.tasks.includes(item)) {
+    myProject.tasks.push(item);
+  } else return;
+};
 //
 // const checkIdForProject2 = async (data, myProject) => {
 //   // let result = await Project.updateOne(
