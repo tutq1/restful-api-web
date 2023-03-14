@@ -78,7 +78,7 @@ const deleteProjectService = async (data) => {
 };
 
 const postCreateProjectService = async (data) => {
-  try {
+    try {
     const projectID = data.projectId;
     let myProject = await Project.findOne({ _id: projectID }).exec();
     //kiem tra idProject co ton tai ko
@@ -87,7 +87,6 @@ const postCreateProjectService = async (data) => {
       return result;
     }
     if (data.type === "ADD-USERS") {
-      console.log("myProject: ", myProject);
       let myUser = await User.find({});
       // kiem tra userId goi len co ton tai trong collection User ko ?
       //data.userArr: danh sach userId truyen len de add vao usersInfor trong Project
@@ -121,8 +120,8 @@ const postCreateProjectService = async (data) => {
 
       for (let item of data.taskArr) {
         if (checkIdUser(item, myTask)) {
-          console.log("item taskarr:", item);
-          checkIdForProject(item, myProject);
+          //console.log("item taskarr:", item);
+          checkIdTaskForProject(item, myProject);
         }
       }
       let newResult = await myProject.save();
