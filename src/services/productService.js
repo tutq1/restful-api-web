@@ -22,17 +22,16 @@ const getProject = async (data) => {
 
 const updateProjectService = async (data) => {
   try {
-    const projectId = data.projectId;
-    // let {
-    //   type,
-    //   projectId,
-    //   name,
-    //   startDate,
-    //   endDate,
-    //   description,
-    //   customerInfor,
-    //   leader,
-    // } = data;
+    let {
+      type,
+      projectId,
+      name,
+      startDate,
+      endDate,
+      description,
+      customerInfor,
+      leader,
+    } = data;
     if (type === "EMPTY-PROJECT") {
       let result = await Project.updateOne({ _id: projectId }, { ...data });
       return result;
