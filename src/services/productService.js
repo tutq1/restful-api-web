@@ -80,11 +80,7 @@ const deleteProjectService = async (data) => {
 
 const postCreateProjectService = async (data) => {
   try {
-    let myProject = await Project.findById(data.projectId).exec();
-    //kiem tra idProject co ton tai ko
-    if (!myProject) {
-      return "ProjectId ko ton tai";
-    } else {
+     
       if (data.type === "EMPTY-PROJECT") {
         let result = await Project.create(data);
         return result;
@@ -129,7 +125,6 @@ const postCreateProjectService = async (data) => {
         let newResult = await myProject.save();
         return newResult;
       }
-    }
   } catch (error) {
     console.log("error Project: ", error);
     return null;
